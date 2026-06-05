@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Berlemont Design</title>
   <style>
@@ -248,6 +249,56 @@
       transition: transform 0.2s, opacity 0.2s;
     }
 
+    /* ─── ABOUT ─── */
+    .about {
+      padding: 80px 48px 80px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-photo img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(100%);
+    }
+
+    .about-text {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding-top: 8px;
+    }
+
+    .about-name {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-text p {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--fg);
+    }
+
+    @media (max-width: 768px) {
+      .about { padding: 60px 24px; }
+      .about-inner { grid-template-columns: 1fr; gap: 40px; }
+      .about-photo img { aspect-ratio: 4/3; }
+    }
+
     /* ─── FOOTER ─── */
     footer {
       display: flex;
@@ -391,6 +442,22 @@
       </div>
     </a>
 
+  </section>
+
+  <!-- NATHAN BERLEMONT -->
+  <section class="about" id="nathan-berlemont">
+    <div class="about-inner">
+      <div class="about-photo">
+        <img src="portrait.jpg" alt="Nathan Berlemont">
+      </div>
+      <div class="about-text">
+        <p class="about-name">Nathan Berlemont</p>
+        <p>Né le 11 mars 2002, je suis étudiant en design à l'ESA Saint-Luc de Liège, une école d'enseignement supérieur artistique reconnue pour la qualité de ses formations en arts appliqués et en design.</p>
+        <p>J'ai débuté mon cursus supérieur par trois années de spécialisation en architecture d'intérieur, une discipline qui m'a permis de développer un regard sensible sur l'espace, les usages et les matériaux. Cette formation m'a initié aux fondamentaux du projet spatial — de l'analyse programmatique au dessin technique, en passant par la scénographie et la conception d'ambiances.</p>
+        <p>Fort de cette base solide, j'ai poursuivi mon parcours au sein de la même école en m'orientant vers le design, élargissant ainsi mes compétences vers des problématiques de conception plus larges.</p>
+        <p>Ce double ancrage — entre l'espace et l'objet, entre la technique et la sensibilité formelle — constitue le fil conducteur de ma formation et nourrit une approche du design à la fois rigoureuse et créative.</p>
+      </div>
+    </div>
   </section>
 
   <!-- CONTACT -->

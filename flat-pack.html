@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flat/Pack — Berlemont Design</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --fg: #0a0a0a;
+      --muted: #888;
+      --border: #e8e8e8;
+      --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--fg);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 48px;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+
+    header.scrolled { border-color: var(--border); }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--fg);
+    }
+
+    .logo img {
+      height: 48px;
+      width: auto;
+      display: block;
+    }
+
+    .logo span {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-left: 14px;
+      color: #0a0a0a;
+    }
+
+    nav a {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      margin-left: 32px;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--fg); }
+
+    /* ─── PROJECT HEADER ─── */
+    .project-intro {
+      padding: 160px 48px 80px;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+      gap: 48px;
+    }
+
+    .project-intro h1 {
+      font-size: clamp(40px, 6vw, 80px);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      line-height: 1.0;
+    }
+
+    .project-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .meta-label {
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .meta-value { color: var(--fg); }
+
+    /* ─── GALLERY ─── */
+    .gallery {
+      padding: 80px 48px 120px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .gallery-full {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .gallery-full img {
+      width: 100%;
+      height: 70vh;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    .gallery-full img:hover { transform: scale(1.01); }
+
+    .gallery-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .gallery-duo img {
+      width: 100%;
+      height: 60vh;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    .gallery-duo img:hover { transform: scale(1.01); }
+
+    /* ─── BACK ─── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 40px 48px;
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      border-top: 1px solid var(--border);
+      width: 100%;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--fg); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 40px 48px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer span { font-size: 12px; color: var(--muted); }
+
+    footer a {
+      font-size: 12px;
+      color: var(--fg);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    footer a:hover { border-color: var(--fg); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      header { padding: 14px 24px; }
+      nav a { margin-left: 20px; }
+      .project-intro { grid-template-columns: 1fr; padding: 120px 24px 60px; }
+      .gallery { padding: 40px 24px 80px; }
+      .gallery-duo { grid-template-columns: 1fr; }
+      .gallery-full img, .gallery-duo img { height: 50vw; min-height: 240px; }
+      .back-link { padding: 32px 24px; }
+      footer { padding: 32px 24px; flex-direction: column; gap: 12px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header id="header">
+    <a class="logo" href="portfolio.html">
+      <img src="Sans titre - 2-01.png" alt="Berlemont Design">
+      <span>Nathan Berlemont Design</span>
+    </a>
+    <nav>
+      <a href="portfolio.html#projets">Projets</a>
+      <a href="mailto:nath.berle@icloud.com">Contact</a>
+    </nav>
+  </header>
+
+  <!-- PROJECT INTRO -->
+  <section class="project-intro">
+    <h1>Flat/<br>Pack</h1>
+    <div class="project-meta">
+      <div class="meta-row">
+        <span class="meta-label">Type</span>
+        <span class="meta-value">Table</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Année</span>
+        <span class="meta-value">2026</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Matériaux</span>
+        <span class="meta-value">OSB</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery">
+    <div class="gallery-full">
+      <img src="IMG_9180.JPG" alt="Flat/Pack — vue 1">
+    </div>
+    <div class="gallery-duo">
+      <img src="IMG_9185.JPG" alt="Flat/Pack — vue 2">
+      <img src="IMG_9189.JPG" alt="Flat/Pack — vue 3">
+    </div>
+  </section>
+
+  <!-- BACK -->
+  <a class="back-link" href="portfolio.html">← Retour aux projets</a>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2026 Berlemont Design</span>
+    <a href="mailto:nath.berle@icloud.com">nath.berle@icloud.com</a>
+  </footer>
+
+  <script>
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 10);
+    });
+  </script>
+
+</body>
+</html>

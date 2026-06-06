@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ekomod — Berlemont Design</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --fg: #0a0a0a;
+      --muted: #888;
+      --border: #e8e8e8;
+      --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--fg);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 48px;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+
+    header.scrolled { border-color: var(--border); }
+
+    .logo { display: flex; align-items: center; text-decoration: none; color: var(--fg); }
+    .logo img { height: 48px; width: auto; display: block; }
+    .logo span {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; margin-left: 14px; color: #0a0a0a;
+    }
+
+    nav a {
+      font-size: 13px; color: var(--muted); text-decoration: none;
+      letter-spacing: 0.04em; margin-left: 32px; transition: color 0.2s;
+    }
+    nav a:hover { color: var(--fg); }
+
+    .project-intro {
+      padding: 160px 48px 80px;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+      gap: 48px;
+    }
+
+    .project-intro h1 {
+      font-size: clamp(40px, 6vw, 80px);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      line-height: 1.0;
+    }
+
+    .project-meta { display: flex; flex-direction: column; gap: 16px; }
+
+    .meta-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding-bottom: 12px; border-bottom: 1px solid var(--border); font-size: 13px;
+    }
+
+    .meta-label { color: var(--muted); letter-spacing: 0.04em; font-size: 11px; text-transform: uppercase; }
+    .meta-value { color: var(--fg); }
+
+    .gallery {
+      padding: 80px 0 120px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    /* Vue large plein écran */
+    .gallery-hero img {
+      width: 100%;
+      height: 85vh;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .gallery-hero img:hover { transform: scale(1.005); }
+
+    /* Vue portrait centrée, espace autour */
+    .gallery-detail {
+      display: flex;
+      justify-content: center;
+      padding: 60px 48px;
+      background: #fafafa;
+    }
+    .gallery-detail img {
+      width: 42%;
+      height: auto;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .gallery-detail img:hover { transform: scale(1.01); }
+
+    /* Deuxième vue large */
+    .gallery-wide img {
+      width: 100%;
+      height: 70vh;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .gallery-wide img:hover { transform: scale(1.005); }
+
+    @media (max-width: 768px) {
+      .gallery-detail img { width: 80%; }
+      .gallery-hero img, .gallery-wide img { height: 55vw; min-height: 260px; }
+    }
+
+    .back-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 40px 48px; font-size: 13px; color: var(--muted);
+      text-decoration: none; border-top: 1px solid var(--border);
+      width: 100%; transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--fg); }
+
+    footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 40px 48px; border-top: 1px solid var(--border);
+    }
+    footer span { font-size: 12px; color: var(--muted); }
+    footer a {
+      font-size: 12px; color: var(--fg); text-decoration: none;
+      border-bottom: 1px solid var(--border); padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    footer a:hover { border-color: var(--fg); }
+
+    @media (max-width: 768px) {
+      header { padding: 14px 24px; }
+      nav a { margin-left: 20px; }
+      .project-intro { grid-template-columns: 1fr; padding: 120px 24px 60px; }
+      .gallery { padding: 40px 0 80px; }
+      .gallery-detail { padding: 40px 24px; }
+      .gallery-detail img { width: 80%; }
+      .gallery-hero img, .gallery-wide img { height: 55vw; min-height: 260px; }
+      .back-link { padding: 32px 24px; }
+      footer { padding: 32px 24px; flex-direction: column; gap: 12px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <header id="header">
+    <a class="logo" href="index.html">
+      <img src="Sans titre - 2-01.png" alt="Berlemont Design">
+      <span>Nathan Berlemont Design</span>
+    </a>
+    <nav>
+      <a href="index.html#projets">Projets</a>
+      <a href="mailto:nath.berle@icloud.com">Contact</a>
+    </nav>
+  </header>
+
+  <section class="project-intro">
+    <h1>Ekomod</h1>
+    <div class="project-meta">
+      <div class="meta-row">
+        <span class="meta-label">Type</span>
+        <span class="meta-value">Étagère modulable</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Année</span>
+        <span class="meta-value">2024</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Matériaux</span>
+        <span class="meta-value">MDF</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery">
+    <div class="gallery-hero">
+      <img src="ekomod-1.png" alt="Ekomod — vue d'ensemble">
+    </div>
+    <div class="gallery-detail">
+      <img src="ekomod-2.png" alt="Ekomod — connecteurs">
+    </div>
+    <div class="gallery-wide">
+      <img src="ekomod-3.png" alt="Ekomod — vue frontale">
+    </div>
+  </section>
+
+  <a class="back-link" href="index.html">← Retour aux projets</a>
+
+  <footer>
+    <span>© 2026 Berlemont Design</span>
+    <a href="mailto:nath.berle@icloud.com">nath.berle@icloud.com</a>
+  </footer>
+
+  <script>
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 10);
+    });
+  </script>
+
+</body>
+</html>

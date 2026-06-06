@@ -182,9 +182,9 @@
 
     .project {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: end;
-      padding: 48px 48px;
+      grid-template-columns: 1fr 220px 200px;
+      align-items: center;
+      padding: 32px 48px;
       border-bottom: 1px solid var(--border);
       cursor: pointer;
       transition: background 0.2s;
@@ -247,6 +247,25 @@
       opacity: 0.3;
       transition: transform 0.2s, opacity 0.2s;
     }
+
+    .project-thumb {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 140px;
+    }
+
+    .project-thumb img {
+      max-height: 140px;
+      max-width: 100%;
+      width: auto;
+      object-fit: contain;
+      filter: grayscale(100%);
+      opacity: 0.75;
+      transition: opacity 0.2s;
+    }
+
+    .project:hover .project-thumb img { opacity: 1; }
 
     /* ─── ABOUT ─── */
     .about {
@@ -375,6 +394,9 @@
         <p class="project-num">01</p>
         <h3 class="project-title">Onyx Light</h3>
       </div>
+      <div class="project-thumb">
+        <img src="lampe.png" alt="Onyx Light">
+      </div>
       <div class="project-right">
         <div class="project-tags">
           <span class="tag">Design objet</span>
@@ -388,6 +410,9 @@
       <div class="project-left">
         <p class="project-num">02</p>
         <h3 class="project-title">Flat/Pack</h3>
+      </div>
+      <div class="project-thumb">
+        <img src="table osb.png" alt="Flat/Pack">
       </div>
       <div class="project-right">
         <div class="project-tags">
@@ -403,6 +428,9 @@
         <p class="project-num">03</p>
         <h3 class="project-title">Steelaro</h3>
       </div>
+      <div class="project-thumb">
+        <img src="steelaro.png" alt="Steelaro">
+      </div>
       <div class="project-right">
         <div class="project-tags">
           <span class="tag">Assise</span>
@@ -412,11 +440,13 @@
       </div>
     </a>
 
-
     <a class="project" href="echo.html">
       <div class="project-left">
         <p class="project-num">04</p>
         <h3 class="project-title">Echo</h3>
+      </div>
+      <div class="project-thumb">
+        <img src="tirant png.png" alt="Echo">
       </div>
       <div class="project-right">
         <div class="project-tags">
@@ -431,6 +461,9 @@
       <div class="project-left">
         <p class="project-num">05</p>
         <h3 class="project-title">Perfora</h3>
+      </div>
+      <div class="project-thumb">
+        <img src="table O.png" alt="Perfora">
       </div>
       <div class="project-right">
         <div class="project-tags">

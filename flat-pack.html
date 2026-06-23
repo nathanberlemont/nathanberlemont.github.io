@@ -203,6 +203,18 @@
       .back-link { padding: 32px 24px; }
       footer { padding: 32px 24px; flex-direction: column; gap: 12px; align-items: flex-start; }
     }
+
+    .gallery-duo-auto {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+    .gallery-duo-auto img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -245,12 +257,12 @@
 
   <!-- GALLERY -->
   <section class="gallery">
-    <div class="gallery-full">
+    <div class="gallery-duo-auto">
       <img src="flat-pack-1.png" alt="Flat/Pack — vue 1">
-    </div>
-    <div class="gallery-duo">
-      <img src="flat-pack-2.png" alt="Flat/Pack — vue 2">
       <img src="flat-pack-3.png" alt="Flat/Pack — vue 3">
+    </div>
+    <div class="gallery-full">
+      <img src="flat-pack-2.png" alt="Flat/Pack — vue 2">
     </div>
     <div class="gallery-full">
       <img src="flat-pack-4.png" alt="Flat/Pack — vue 4">
@@ -259,7 +271,7 @@
       <img src="flat-pack-5.png" alt="Flat/Pack — vue 5">
       <img src="flat-pack-6.png" alt="Flat/Pack — vue 6">
     </div>
-    <div class="gallery-duo">
+    <div class="gallery-duo-auto">
       <img src="flat-pack-7.png" alt="Flat/Pack — vue 7">
       <img src="flat-pack-8.png" alt="Flat/Pack — vue 8">
     </div>
@@ -273,12 +285,33 @@
     <span>© 2026 Berlemont Design</span>
     <a href="mailto:nath.berle@icloud.com">nath.berle@icloud.com</a>
   </footer>
-
+  <!-- LIGHTBOX -->
+  <div id="lightbox" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.92);cursor:zoom-out;align-items:center;justify-content:center;">
+    <div style="position:relative;display:inline-flex;">
+      <img id="lightbox-img" style="max-width:90vw;max-height:90vh;object-fit:contain;display:block;">
+    </div>
+  </div>
   <script>
     const header = document.getElementById('header');
     window.addEventListener('scroll', () => {
       header.classList.toggle('scrolled', window.scrollY > 10);
     });
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    document.querySelectorAll('.gallery img').forEach(img => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', () => {
+        lbImg.src = img.src;
+        lb.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      });
+    });
+    function closeLb() {
+      lb.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    lb.addEventListener('click', closeLb);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
   </script>
 
 </body>

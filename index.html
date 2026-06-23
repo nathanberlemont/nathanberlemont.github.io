@@ -567,6 +567,11 @@
     <a href="mailto:nath.berle@icloud.com">nath.berle@icloud.com</a>
   </footer>
 
+  <!-- TRANSITION OVERLAY -->
+  <div id="transition-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:#fff;">
+    <video id="transition-video" src="transition.mp4" muted playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
+  </div>
+
   <script>
     const header = document.getElementById('header');
     window.addEventListener('scroll', () => {
@@ -581,6 +586,23 @@
       current = (current + 1) % slides.length;
       slides[current].classList.add('active');
     }, 3500);
+
+    // Transition vidéo sur clic projet
+    const overlay = document.getElementById('transition-overlay');
+    const video = document.getElementById('transition-video');
+
+    document.querySelectorAll('a.project').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const href = link.getAttribute('href');
+        overlay.style.display = 'block';
+        video.currentTime = 0;
+        video.play();
+        video.onended = () => { window.location.href = href; };
+        // Fallback si la vidéo ne se charge pas
+        setTimeout(() => { window.location.href = href; }, 2200);
+      });
+    });
   </script>
 
 </body>

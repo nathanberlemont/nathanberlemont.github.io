@@ -591,6 +591,13 @@
     const overlay = document.getElementById('transition-overlay');
     const video = document.getElementById('transition-video');
 
+    // Masquer l'overlay si on revient en arrière (bfcache)
+    window.addEventListener('pageshow', () => {
+      overlay.style.display = 'none';
+      video.pause();
+      video.currentTime = 0;
+    });
+
     document.querySelectorAll('a.project').forEach(link => {
       link.addEventListener('click', e => {
         e.preventDefault();

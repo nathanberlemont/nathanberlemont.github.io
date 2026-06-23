@@ -58,6 +58,13 @@
       box-shadow: 0 2px 16px rgba(0,0,0,0.07);
       will-change: transform;
     }
+
+    @media (max-width: 768px) {
+      header { padding: 12px 20px; }
+      header .logo span { display: none; }
+      nav a { margin-left: 16px; font-size: 12px; }
+      .board-label { bottom: 16px; left: 20px; font-size: 10px; }
+    }
     .card:hover {
       box-shadow: 0 8px 40px rgba(0,0,0,0.18);
       z-index: 50 !important;
@@ -103,6 +110,10 @@
   </div>
 
   <script>
+    // Responsive config
+    function isMobile() { return window.innerWidth <= 768; }
+    function isTablet() { return window.innerWidth <= 1024 && window.innerWidth > 768; }
+
     const srcs = [
       'dev-board-01/scan-01.jpg','dev-board-01/scan-02.jpg','dev-board-01/scan-03.jpg',
       'dev-board-01/scan-04.jpg','dev-board-01/scan-05.jpg','dev-board-01/scan-06.jpg',
@@ -122,19 +133,17 @@
     const W = () => window.innerWidth;
     const H = () => window.innerHeight - 81;
 
-    // Sizes: large, filling the screen well
-    const sizePool = [220, 260, 300, 340, 380];
-
-    // Spread images across the full width in columns, staggered vertically
-    const cols = 4;
+    // Responsive sizes and columns
+    const sizePool = isMobile() ? [110, 135, 160, 185]
+                   : isTablet() ? [170, 210, 250, 290]
+                   : [220, 260, 300, 340, 380];
+    const cols = isMobile() ? 2 : isTablet() ? 3 : 4;
     const colW = () => W() / cols;
 
     const items = srcs.map((src, i) => {
       const w = sizePool[Math.floor(Math.random() * sizePool.length)];
       const col = i % cols;
-      // Random x within the column, slight overlap allowed
       const x = col * colW() + (Math.random() - 0.3) * colW() * 0.9;
-      // Stagger start positions across the full height so they don't all appear at once
       const y = (i / srcs.length) * (H() * 2.8) - H();
 
       // All drift downward, slightly different speeds

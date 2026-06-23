@@ -354,20 +354,58 @@
     }
     footer a:hover { border-color: var(--fg); }
 
-    /* ─── RESPONSIVE ─── */
+    /* ─── PROJECTS-DEV WRAPPER ─── */
+    .projects-dev-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 200px;
+      align-items: start;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ─── TABLET (≤1100px) ─── */
+    @media (max-width: 1100px) {
+      .projects-dev-wrapper { grid-template-columns: 1fr 150px; }
+      .project { grid-template-columns: 1fr 160px 150px; padding: 28px 32px; }
+      .section-header { padding: 48px 32px 32px; }
+    }
+
+    /* ─── MOBILE (≤768px) ─── */
     @media (max-width: 768px) {
-      header { padding: 14px 24px; }
-      nav a { margin-left: 20px; }
-      .hero { padding: 0 24px 60px; }
-      .section-header { padding: 48px 24px 32px; }
+      header { padding: 14px 20px; }
+      header .logo span { display: none; }
+      nav a { margin-left: 16px; font-size: 12px; }
+
+      .hero { padding: 0 20px 48px; }
+      .slideshow { height: 45vh; }
+      .hero h1 { font-size: 22px; }
+
+      .projects-dev-wrapper { grid-template-columns: 1fr; }
+      #developpement { display: none; }
+
+      .section-header { padding: 36px 20px 24px; }
+
       .project {
-        grid-template-columns: 1fr;
-        gap: 24px;
-        padding: 40px 24px;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        padding: 20px;
+        gap: 0;
       }
-      .project-right { align-items: flex-start; }
-      .project-tags { justify-content: flex-start; }
-      footer { padding: 32px 24px; flex-direction: column; gap: 12px; align-items: flex-start; }
+      .project-thumb { display: none; }
+      .project-title { font-size: clamp(20px, 5vw, 32px); }
+      .project-right {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
+      }
+      .project-tags { display: none; }
+
+      .about { padding: 48px 20px; }
+      .about-inner { grid-template-columns: 1fr; gap: 32px; }
+      .about-photo img { aspect-ratio: 4/3; }
+
+      .contact { padding: 48px 20px; }
+
+      footer { padding: 28px 20px; flex-direction: column; gap: 10px; align-items: flex-start; }
     }
   </style>
 </head>
@@ -404,7 +442,7 @@
   </section>
 
   <!-- PROJECTS + DÉVELOPPEMENT -->
-  <div style="display:grid;grid-template-columns:1fr 200px;align-items:start;border-bottom:1px solid var(--border);">
+  <div class="projects-dev-wrapper">
 
   <section class="projects" id="projets" style="border-right:1px solid var(--border);padding-bottom:0;margin:0;">
 
@@ -542,6 +580,10 @@
   </a>
 
   </div><!-- end grid -->
+
+  <!-- MOBILE DEV LINK -->
+  <a href="developpement.html" style="display:none;padding:24px 20px;font-size:13px;color:var(--muted);text-decoration:none;border-bottom:1px solid var(--border);width:100%;letter-spacing:0.04em;" class="mobile-dev-link">Board Développement →</a>
+  <style>@media(max-width:768px){.mobile-dev-link{display:block!important;}}</style>
 
   <!-- NATHAN BERLEMONT -->
   <section class="about" id="nathan-berlemont">

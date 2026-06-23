@@ -381,6 +381,7 @@
     </a>
     <nav>
       <a href="#projets">Projets</a>
+      <a href="developpement.html">Développement</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
@@ -402,8 +403,10 @@
     <h1>À travers l'objet, l'espace et la matière, je conçois des expériences qui allient artisanat et fonctionnalité.</h1>
   </section>
 
-  <!-- PROJECTS -->
-  <section class="projects" id="projets">
+  <!-- PROJECTS + DÉVELOPPEMENT -->
+  <div style="display:grid;grid-template-columns:1fr 200px;align-items:start;border-bottom:1px solid var(--border);">
+
+  <section class="projects" id="projets" style="border-right:1px solid var(--border);padding-bottom:0;margin:0;">
 
     <div class="section-header">
       <h2>Projets</h2>
@@ -529,6 +532,16 @@
     </a>
 
   </section>
+
+  <!-- DEV PANEL -->
+  <a href="developpement.html" id="developpement" style="display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-decoration:none;color:inherit;position:sticky;top:0;height:100vh;background:#fff;padding:0 40px;gap:16px;transition:background 0.2s;" onmouseover="this.style.background='#f8f8f8'" onmouseout="this.style.background='#fff'">
+    <p style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);">Board</p>
+    <h2 style="font-size:13px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;">Développement</h2>
+    <p style="font-size:11px;color:var(--muted);letter-spacing:0.04em;">25 planches · Croquis & recherche</p>
+    <span style="font-size:20px;color:var(--muted);margin-top:8px;">→</span>
+  </a>
+
+  </div><!-- end grid -->
 
   <!-- NATHAN BERLEMONT -->
   <section class="about" id="nathan-berlemont">

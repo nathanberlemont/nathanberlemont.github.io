@@ -591,17 +591,12 @@
     const overlay = document.getElementById('transition-overlay');
     const video = document.getElementById('transition-video');
 
-    // Masquer l'overlay si on revient en arrière (bfcache)
-    window.addEventListener('pageshow', () => {
-      overlay.style.display = 'none';
-      video.pause();
-      video.currentTime = 0;
-    });
 
     document.querySelectorAll('a.project').forEach(link => {
       link.addEventListener('click', e => {
         e.preventDefault();
         const href = link.getAttribute('href');
+        sessionStorage.setItem('lastProject', href);
         overlay.style.display = 'block';
         video.currentTime = 0;
         video.play();
@@ -609,6 +604,22 @@
         // Fallback si la vidéo ne se charge pas
         setTimeout(() => { window.location.href = href; }, 2200);
       });
+    });
+
+    // Au retour, centrer le projet visité
+    window.addEventListener('pageshow', () => {
+      overlay.style.display = 'none';
+      video.pause();
+      video.currentTime = 0;
+      const last = sessionStorage.getItem('lastProject');
+      if (last) {
+        const el = document.querySelector(`a.project[href="${last}"]`);
+        if (el) {
+          setTimeout(() => {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 80);
+        }
+      }
     });
   </script>
 

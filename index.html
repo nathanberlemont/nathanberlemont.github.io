@@ -669,19 +669,24 @@
       });
     });
 
-    // Au retour, centrer le projet visité
-    window.addEventListener('pageshow', () => {
+    // Désactive la restauration de scroll automatique du navigateur
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+    // Au retour (swipe back ou bouton retour), centrer le projet visité
+    window.addEventListener('pageshow', (e) => {
       overlay.style.display = 'none';
       video.pause();
       video.currentTime = 0;
       const last = sessionStorage.getItem('lastProject');
-      if (last) {
-        const el = document.querySelector(`a.project[href="${last}"]`);
-        if (el) {
-          setTimeout(() => {
-            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }, 80);
-        }
+      const el = last ? document.querySelector(`a.project[href="${last}"]`) : null;
+      const target = el || document.getElementById('projets');
+      if (target) {
+        // On bfcache (swipe back), le navigateur peut rétablir le scroll après l'event
+        // On répète le scroll pour s'assurer qu'il s'applique en dernier
+        const go = () => target.scrollIntoView({ behavior: 'instant', block: el ? 'center' : 'start' });
+        go();
+        setTimeout(go, 80);
+        setTimeout(go, 200);
       }
     });
   </script>

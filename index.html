@@ -672,6 +672,14 @@
     // Désactive la restauration de scroll automatique du navigateur
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
+    // Cache l'overlay AVANT que le bfcache sauvegarde l'état de la page
+    // Sans ça, le swipe back restaure la page avec l'animation visible
+    window.addEventListener('pagehide', () => {
+      overlay.style.display = 'none';
+      video.pause();
+      video.currentTime = 0;
+    });
+
     // Au retour (swipe back ou bouton retour), centrer le projet visité
     window.addEventListener('pageshow', (e) => {
       overlay.style.display = 'none';

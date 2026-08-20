@@ -19,7 +19,6 @@
       height: 100vh;
       width: 100vw;
     }
-
     header {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; justify-content: space-between; align-items: center;
@@ -31,51 +30,49 @@
     .logo { display: flex; align-items: center; text-decoration: none; color: var(--fg); }
     .logo img { height: 48px; width: auto; display: block; }
     .logo span { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-left: 14px; }
-    nav a {
-      font-size: 13px; color: var(--muted); text-decoration: none;
-      letter-spacing: 0.04em; margin-left: 32px; transition: color 0.2s;
-    }
+    nav a { font-size: 13px; color: var(--muted); text-decoration: none; letter-spacing: 0.04em; margin-left: 32px; transition: color 0.2s; }
     nav a:hover { color: var(--fg); }
 
-    /* Section label bottom-left */
     .board-label {
       position: fixed; bottom: 32px; left: 48px; z-index: 200;
       font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
       pointer-events: none;
     }
 
-    /* Board canvas */
-    #board {
+    .strip-wrapper {
       position: fixed;
-      inset: 0;
-      top: 81px;
+      top: 81px; left: 0; right: 0; bottom: 0;
+      overflow: hidden;
     }
 
-    .card {
+    /* La bande est un conteneur flex horizontal sans gap (géré en JS) */
+    #strip {
+      display: flex;
+      align-items: stretch;
+      height: 100%;
       position: absolute;
-      cursor: zoom-in;
-      transition: box-shadow 0.3s ease;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      top: 0; left: 0;
       will-change: transform;
     }
 
-    @media (max-width: 768px) {
-      header { padding: 12px 20px; }
-      header .logo span { display: none; }
-      nav a { margin-left: 16px; font-size: 12px; }
-      .board-label { bottom: 16px; left: 20px; font-size: 10px; }
+    /* Chaque colonne est un empilement vertical */
+    .col {
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      overflow: hidden;
     }
-    .card:hover {
-      box-shadow: 0 8px 40px rgba(0,0,0,0.18);
-      z-index: 50 !important;
-    }
-    .card img {
+
+    .col img {
       width: 100%;
-      height: auto;
+      object-fit: contain;
+      background: var(--bg);
       display: block;
-      pointer-events: none;
-      user-select: none;
+      flex-shrink: 0;
+      cursor: zoom-in;
+      transition: opacity 0.3s;
     }
+    .col img:hover { opacity: 0.88; }
 
     /* Lightbox */
     #lightbox {
@@ -83,8 +80,13 @@
       background: rgba(0,0,0,0.92); cursor: zoom-out;
       align-items: center; justify-content: center;
     }
-    #lightbox img {
-      max-width: 90vw; max-height: 90vh; object-fit: contain; display: block;
+    #lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; display: block; }
+
+    @media (max-width: 768px) {
+      header { padding: 12px 20px; }
+      header .logo span { display: none; }
+      nav a { margin-left: 16px; font-size: 12px; }
+      .board-label { bottom: 16px; left: 20px; font-size: 10px; }
     }
   </style>
 </head>
@@ -103,17 +105,15 @@
 
   <div class="board-label">Développement — 39 planches</div>
 
-  <div id="board"></div>
+  <div class="strip-wrapper" id="wrapper">
+    <div id="strip"></div>
+  </div>
 
   <div id="lightbox">
     <img id="lightbox-img" src="" alt="">
   </div>
 
   <script>
-    // Responsive config
-    function isMobile() { return window.innerWidth <= 768; }
-    function isTablet() { return window.innerWidth <= 1024 && window.innerWidth > 768; }
-
     const srcs = [
       'dev-board-01/scan-01.jpg','dev-board-01/scan-02.jpg','dev-board-01/scan-03.jpg',
       'dev-board-01/scan-04.jpg','dev-board-01/scan-05.jpg','dev-board-01/scan-06.jpg',
@@ -131,66 +131,107 @@
       'dev-board-02/scan-13.jpg','dev-board-02/scan-14.jpg',
     ];
 
-    const board = document.getElementById('board');
-    const lb    = document.getElementById('lightbox');
-    const lbImg = document.getElementById('lightbox-img');
+    const strip   = document.getElementById('strip');
+    const wrapper = document.getElementById('wrapper');
+    const lb      = document.getElementById('lightbox');
+    const lbImg   = document.getElementById('lightbox-img');
 
-    const W = () => window.innerWidth;
-    const H = () => window.innerHeight - 81;
+    const GAP        = 11;   // ≈ 3mm entre photos
+    const SPEED      = 0.45; // px/frame
+    const containerH = window.innerHeight - 81;
 
-    // Responsive sizes and columns
-    const sizePool = isMobile() ? [110, 135, 160, 185]
-                   : isTablet() ? [170, 210, 250, 290]
-                   : [220, 260, 300, 340, 380];
-    const cols = isMobile() ? 2 : isTablet() ? 3 : 4;
-    const colW = () => W() / cols;
+    // Largeurs de colonnes disponibles (variété visuelle)
+    const COL_WIDTHS = [160, 190, 210, 230, 180, 200, 220, 175];
 
-    const items = srcs.map((src, i) => {
-      const w = sizePool[Math.floor(Math.random() * sizePool.length)];
-      const col = i % cols;
-      const x = col * colW() + (Math.random() - 0.3) * colW() * 0.9;
-      const y = (i / srcs.length) * (H() * 2.8) - H();
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
 
-      // All drift downward, slightly different speeds
-      const vy = 0.25 + Math.random() * 0.25;
+    // Calcule la disposition : colonnes avec hauteurs proportionnelles pour remplir l'écran
+    function computeLayout(images) {
+      const pool = shuffle(images);
+      const cols = [];
+      let i = 0;
+      while (i < pool.length) {
+        // 2 à 4 images par colonne
+        const count = 2 + Math.floor(Math.random() * 3);
+        const batch = pool.slice(i, Math.min(i + count, pool.length));
+        i += batch.length;
 
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.style.width  = w + 'px';
-      card.style.left   = Math.max(0, Math.min(x, W() - w)) + 'px';
-      card.style.top    = y + 'px';
-      card.style.zIndex = Math.floor(Math.random() * 8) + 1;
+        const colW = COL_WIDTHS[Math.floor(Math.random() * COL_WIDTHS.length)];
 
-      const img = document.createElement('img');
-      img.src = src;
-      img.draggable = false;
-      card.appendChild(img);
-      board.appendChild(card);
+        // Poids aléatoires pour les hauteurs relatives
+        const weights = batch.map(() => 0.5 + Math.random());
+        const totalW  = weights.reduce((a, b) => a + b, 0);
+        const totalGap = (batch.length - 1) * GAP;
+        // Chaque image prend une part proportionnelle de la hauteur disponible
+        const heights = weights.map(w => Math.round(w / totalW * (containerH - totalGap)));
 
-      card.addEventListener('click', () => {
-        lbImg.src = src;
-        lb.style.display = 'flex';
+        cols.push({ srcs: batch, colW, heights });
+      }
+      return cols;
+    }
+
+    // Rend un jeu de colonnes dans le strip
+    function renderLayout(layout, openLb) {
+      let setW = 0;
+      layout.forEach(({ srcs: batchSrcs, colW, heights }) => {
+        const col = document.createElement('div');
+        col.className = 'col';
+        col.style.width        = colW + 'px';
+        col.style.gap          = GAP + 'px';
+        col.style.marginRight  = GAP + 'px';
+        col.style.height       = containerH + 'px';
+
+        batchSrcs.forEach((src, j) => {
+          const img = document.createElement('img');
+          img.src = src;
+          img.style.height = heights[j] + 'px';
+          img.addEventListener('click', () => openLb(src));
+          col.appendChild(img);
+        });
+
+        strip.appendChild(col);
+        setW += colW + GAP;
       });
+      return setW;
+    }
 
-      return { card, x: Math.max(0, Math.min(x, W() - w)), y, vy, w };
-    });
+    function openLightbox(src) {
+      lbImg.src = src;
+      lb.style.display = 'flex';
+    }
+
+    // Calcule et rend deux copies identiques pour la boucle
+    const layout  = computeLayout(srcs);
+    const setWidth = renderLayout(layout, openLightbox);
+    renderLayout(layout, openLightbox);
+
+    // Animation défilement droite → gauche
+    let x = 0;
+    let paused = false;
 
     function animate() {
-      const cH = H();
-      items.forEach(item => {
-        item.y += item.vy;
-        const h = item.card.offsetHeight || 300;
-        // When card exits bottom, loop back to above the top
-        if (item.y > cH + 20) {
-          item.y = -(h + 40 + Math.random() * 200);
-        }
-        item.card.style.top = item.y + 'px';
-      });
+      if (!paused) {
+        x -= SPEED;
+        if (Math.abs(x) >= setWidth) x = 0;
+        strip.style.transform = `translateX(${x}px)`;
+      }
       requestAnimationFrame(animate);
     }
     animate();
 
-    // Lightbox close
+    wrapper.addEventListener('mouseenter', () => paused = true);
+    wrapper.addEventListener('mouseleave', () => paused = false);
+
+    window.addEventListener('resize', () => location.reload());
+
+    // Lightbox
     lb.addEventListener('click', () => { lb.style.display = 'none'; lbImg.src = ''; });
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') { lb.style.display = 'none'; lbImg.src = ''; }

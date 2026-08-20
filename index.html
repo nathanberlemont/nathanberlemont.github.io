@@ -704,14 +704,15 @@
       video.currentTime = 0;
       const last = sessionStorage.getItem('lastProject');
       const el = last ? document.querySelector(`a.project[href="${last}"]`) : null;
-      const target = el || document.getElementById('projets');
-      if (target) {
-        // On bfcache (swipe back), le navigateur peut rétablir le scroll après l'event
-        // On répète le scroll pour s'assurer qu'il s'applique en dernier
-        const go = () => target.scrollIntoView({ behavior: 'instant', block: el ? 'center' : 'start' });
+      if (el) {
+        // Retour depuis un projet : centrer sur le projet visité
+        const go = () => el.scrollIntoView({ behavior: 'instant', block: 'center' });
         go();
         setTimeout(go, 80);
         setTimeout(go, 200);
+      } else {
+        // Première visite ou navigation directe : haut de page
+        window.scrollTo(0, 0);
       }
     });
   </script>

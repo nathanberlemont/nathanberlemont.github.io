@@ -141,21 +141,39 @@
 
     .gallery-full img:hover { transform: scale(1.01); }
 
-    .gallery-duo {
+    .gallery-split {
       display: grid;
       grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
       gap: 2px;
     }
 
-    .gallery-duo img {
+    .gallery-split .split-left {
+      grid-row: 1 / 3;
+      overflow: hidden;
+    }
+
+    .gallery-split .split-left img {
       width: 100%;
-      height: auto;
-      object-fit: contain;
+      height: 100%;
+      object-fit: cover;
       display: block;
       transition: transform 0.6s ease;
     }
 
-    .gallery-duo img:hover { transform: scale(1.01); }
+    .gallery-split .split-right {
+      overflow: hidden;
+    }
+
+    .gallery-split .split-right img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    .gallery-split img:hover { transform: scale(1.01); }
 
     /* ─── BACK ─── */
     .back-link {
@@ -281,12 +299,16 @@
 
   <!-- GALLERY -->
   <section class="gallery">
-    <div class="gallery-full">
-      <img src="lampe jour .png" alt="Onyx Light — vue 1">
-    </div>
-    <div class="gallery-duo">
-      <img src="lampe-fin-apres-midi.png" alt="Onyx Light — vue 2">
-      <img src="lampe shoot.png" alt="Onyx Light — vue 3">
+    <div class="gallery-split">
+      <div class="split-left">
+        <img src="lampe jour .png" alt="Onyx Light — vue 1">
+      </div>
+      <div class="split-right">
+        <img src="lampe-fin-apres-midi.png" alt="Onyx Light — vue 2">
+      </div>
+      <div class="split-right">
+        <img src="lampe shoot.png" alt="Onyx Light — vue 3">
+      </div>
     </div>
   </section>
 

@@ -214,20 +214,24 @@
 
     // Animation défilement droite → gauche
     let x = 0;
-    let paused = false;
+    let currentSpeed = SPEED;
+    let hovering = false;
 
     function animate() {
-      if (!paused) {
-        x -= SPEED;
-        if (Math.abs(x) >= setWidth) x = 0;
-        strip.style.transform = `translateX(${x}px)`;
+      if (hovering) {
+        currentSpeed = Math.max(0, currentSpeed - SPEED * 0.05);
+      } else {
+        currentSpeed = Math.min(SPEED, currentSpeed + SPEED * 0.03);
       }
+      x -= currentSpeed;
+      if (Math.abs(x) >= setWidth) x = 0;
+      strip.style.transform = `translateX(${x}px)`;
       requestAnimationFrame(animate);
     }
     animate();
 
-    wrapper.addEventListener('mouseenter', () => paused = true);
-    wrapper.addEventListener('mouseleave', () => paused = false);
+    wrapper.addEventListener('mouseenter', () => hovering = true);
+    wrapper.addEventListener('mouseleave', () => hovering = false);
 
     window.addEventListener('resize', () => location.reload());
 

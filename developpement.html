@@ -65,7 +65,9 @@
 
     .col img {
       width: 100%;
-      object-fit: contain;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
       background: var(--bg);
       display: block;
       flex-shrink: 0;
@@ -178,6 +180,9 @@
     }
 
     // Rend un jeu de colonnes dans le strip
+    // Chaque image occupe exactement sa cellule (object-fit: cover) afin que
+    // toutes les images s'alignent parfaitement entre elles, sans espace blanc
+    // ni décalage de cadrage.
     function renderLayout(layout, openLb) {
       let setW = 0;
       layout.forEach(({ srcs: batchSrcs, colW, heights }) => {
@@ -189,11 +194,17 @@
         col.style.height       = containerH + 'px';
 
         batchSrcs.forEach((src, j) => {
+          const cell = document.createElement('div');
+          cell.style.width  = '100%';
+          cell.style.height = heights[j] + 'px';
+          cell.style.overflow = 'hidden';
+          cell.style.flexShrink = '0';
+
           const img = document.createElement('img');
           img.src = src;
-          img.style.height = heights[j] + 'px';
           img.addEventListener('click', () => openLb(src));
-          col.appendChild(img);
+          cell.appendChild(img);
+          col.appendChild(cell);
         });
 
         strip.appendChild(col);
@@ -212,26 +223,17 @@
     const setWidth = renderLayout(layout, openLightbox);
     renderLayout(layout, openLightbox);
 
-    // Animation défilement droite → gauche
+    // Animation défilement droite → gauche — continue en permanence,
+    // même quand la souris survole l'écran (pas de pause au hover).
     let x = 0;
-    let currentSpeed = SPEED;
-    let hovering = false;
 
     function animate() {
-      if (hovering) {
-        currentSpeed = Math.max(0, currentSpeed - SPEED * 0.05);
-      } else {
-        currentSpeed = Math.min(SPEED, currentSpeed + SPEED * 0.03);
-      }
-      x -= currentSpeed;
+      x -= SPEED;
       if (Math.abs(x) >= setWidth) x = 0;
       strip.style.transform = `translateX(${x}px)`;
       requestAnimationFrame(animate);
     }
     animate();
-
-    wrapper.addEventListener('mouseenter', () => hovering = true);
-    wrapper.addEventListener('mouseleave', () => hovering = false);
 
     window.addEventListener('resize', () => location.reload());
 

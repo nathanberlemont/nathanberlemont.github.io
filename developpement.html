@@ -65,9 +65,7 @@
 
     .col img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
+      object-fit: contain;
       background: var(--bg);
       display: block;
       flex-shrink: 0;
@@ -96,7 +94,7 @@
 
   <header>
     <a class="logo" href="index.html">
-      <img src="Sans titre - 2-01.png" alt="Berlemont Design">
+      <img src="assets/brand/logo.png" alt="Berlemont Design">
       <span>Nathan Berlemont Design</span>
     </a>
     <nav>
@@ -116,43 +114,20 @@
   </div>
 
   <script>
-    const srcs = [
-      'dev-board-01/scan-01.jpg','dev-board-01/scan-02.jpg','dev-board-01/scan-03.jpg',
-      'dev-board-01/scan-04.jpg','dev-board-01/scan-05.jpg','dev-board-01/scan-06.jpg',
-      'dev-board-01/scan-07.jpg','dev-board-01/scan-08.jpg','dev-board-01/scan-09.jpg',
-      'dev-board-01/scan-10.jpg','dev-board-01/scan-11.jpg','dev-board-01/scan-12.jpg',
-      'dev-board-01/scan-13.jpg','dev-board-01/scan-14.jpg','dev-board-01/scan-15.jpg',
-      'dev-board-01/scan-16.jpg','dev-board-01/scan-17.jpg','dev-board-01/scan-18.jpg',
-      'dev-board-01/scan-19.jpg','dev-board-01/scan-20.jpg','dev-board-01/scan-21.jpg',
-      'dev-board-01/scan-22.jpg','dev-board-01/scan-23.jpg','dev-board-01/scan-24.jpg',
-      'dev-board-01/scan-25.jpg',
-      'dev-board-02/scan-01.jpg','dev-board-02/scan-02.jpg','dev-board-02/scan-03.jpg',
-      'dev-board-02/scan-04.jpg','dev-board-02/scan-05.jpg','dev-board-02/scan-06.jpg',
-      'dev-board-02/scan-07.jpg','dev-board-02/scan-08.jpg','dev-board-02/scan-09.jpg',
-      'dev-board-02/scan-10.jpg','dev-board-02/scan-11.jpg','dev-board-02/scan-12.jpg',
-      'dev-board-02/scan-13.jpg','dev-board-02/scan-14.jpg',
-      'dev-board-03/scan-01.jpg','dev-board-03/scan-02.jpg','dev-board-03/scan-03.jpg',
-      'dev-board-03/scan-04.jpg','dev-board-03/scan-05.jpg','dev-board-03/scan-06.jpg',
-      'dev-board-03/scan-07.jpg','dev-board-03/scan-08.jpg','dev-board-03/scan-09.jpg',
-      'dev-board-03/scan-10.jpg','dev-board-03/scan-11.jpg','dev-board-03/scan-12.jpg',
-      'dev-board-03/scan-13.jpg','dev-board-03/scan-14.jpg','dev-board-03/scan-15.jpg',
-      'dev-board-03/scan-16.jpg','dev-board-03/scan-17.jpg','dev-board-03/scan-18.jpg',
-      'dev-board-03/scan-19.jpg','dev-board-03/scan-20.jpg','dev-board-03/scan-21.jpg',
-      'dev-board-03/scan-22.jpg','dev-board-03/scan-23.jpg','dev-board-03/scan-24.jpg',
-      'dev-board-03/scan-25.jpg',
-    ];
+    // [chemin, ratio largeur/hauteur] — ratios pré-calculés pour que chaque image
+    // soit affichée EN ENTIER (aucun recadrage) et que toutes les colonnes
+    // aient exactement la même hauteur (haut et bas parfaitement alignés).
+    const IMAGES = [['assets/dev-board-04/scan-01.jpg',0.6954],['assets/dev-board-04/scan-02.jpg',1.3831],['assets/dev-board-04/scan-03.jpg',1.3947],['assets/dev-board-04/scan-04.jpg',1.387],['assets/dev-board-04/scan-05.jpg',1.3947],['assets/dev-board-04/scan-06.jpg',0.693],['assets/dev-board-04/scan-07.jpg',1.3986],['assets/dev-board-04/scan-08.jpg',1.4903],['assets/dev-board-04/scan-09.jpg',1.4085],['assets/dev-board-04/scan-10.jpg',1.4104],['assets/dev-board-04/scan-11.jpg',1.4925],['assets/dev-board-04/scan-12.jpg',1.4948],['assets/dev-board-04/scan-13.jpg',1.3569],['assets/dev-board-04/scan-14.jpg',1.4265],['assets/dev-board-04/scan-15.jpg',1.3755],['assets/dev-board-04/scan-16.jpg',1.3605],['assets/dev-board-04/scan-17.jpg',1.385],['assets/dev-board-04/scan-18.jpg',0.9058],['assets/dev-board-04/scan-19.jpg',0.7052],['assets/dev-board-04/scan-20.jpg',1.4265],['assets/dev-board-04/scan-21.jpg',1.4164],['assets/dev-board-04/scan-22.jpg',1.2165],['assets/dev-board-04/scan-23.jpg',0.6978],['assets/dev-board-04/scan-24.jpg',0.7057],['assets/dev-board-04/scan-25.jpg',1.6722],['assets/dev-board-04/scan-26.jpg',1.3889],['assets/dev-board-04/scan-27.jpg',1.4065],['assets/dev-board-04/scan-28.jpg',0.6993],['assets/dev-board-04/scan-29.jpg',0.6978],['assets/dev-board-04/scan-30.jpg',1.4225],['assets/dev-board-04/scan-31.jpg',0.7037],['assets/dev-board-04/scan-32.jpg',0.6817],['assets/dev-board-04/scan-33.jpg',0.6935],['assets/dev-board-04/scan-34.jpg',0.6878],['assets/dev-board-04/scan-35.jpg',0.7047],['assets/dev-board-04/scan-36.jpg',0.7037],['assets/dev-board-04/scan-37.jpg',0.7491],['assets/dev-board-04/scan-38.jpg',1.3141],['assets/dev-board-04/scan-39.jpg',1.5175],['assets/dev-board-04/scan-40.jpg',1.5019],['assets/dev-board-04/scan-41.jpg',1.6854],['assets/dev-board-04/scan-42.jpg',1.7937],['assets/dev-board-04/scan-43.jpg',1.5019],['assets/dev-board-04/scan-44.jpg',1.4769],['assets/dev-board-04/scan-45.jpg',1.4303],['assets/dev-board-04/scan-46.jpg',1.6227],['assets/dev-board-04/scan-47.jpg',1.4235],['assets/dev-board-04/scan-48.jpg',0.9625],['assets/dev-board-04/scan-49.jpg',0.61],['assets/dev-board-04/scan-50.jpg',1.0899],['assets/dev-board-04/scan-51.jpg',1.4134],['assets/dev-board-04/scan-52.jpg',1.3498],['assets/dev-board-04/scan-53.jpg',0.75],['assets/dev-board-04/scan-54.jpg',1.3582],['assets/dev-board-04/scan-55.jpg',1.3333],['assets/dev-board-04/scan-56.jpg',0.75],['assets/dev-board-04/scan-57.jpg',0.75],['assets/dev-board-04/scan-58.jpg',1.3333],['assets/dev-board-04/scan-59.jpg',0.7121],['assets/dev-board-04/scan-60.jpg',0.6954],['assets/dev-board-04/scan-61.jpg',1.444],['assets/dev-board-04/scan-62.jpg',1.4252],['assets/dev-board-04/scan-63.jpg',1.3333],['assets/dev-board-04/scan-64.jpg',1.5335]];
 
     const strip   = document.getElementById('strip');
-    const wrapper = document.getElementById('wrapper');
     const lb      = document.getElementById('lightbox');
     const lbImg   = document.getElementById('lightbox-img');
 
     const GAP        = 11;   // ≈ 3mm entre photos
     const SPEED      = 0.45; // px/frame
     const containerH = window.innerHeight - 81;
-
-    // Largeurs de colonnes disponibles (variété visuelle)
-    const COL_WIDTHS = [160, 190, 210, 230, 180, 200, 220, 175];
+    const TARGET_W   = Math.max(150, Math.min(300, containerH * 0.34)); // largeur de colonne visée
+    const MAX_W      = TARGET_W * 1.7;                                  // au-delà : on fusionne
 
     function shuffle(arr) {
       const a = [...arr];
@@ -163,57 +138,53 @@
       return a;
     }
 
-    // Calcule la disposition : colonnes avec hauteurs proportionnelles pour remplir l'écran
+    // Largeur de colonne pour que les images empilées (à leur ratio réel) remplissent exactement la hauteur
+    function colWidth(batch) {
+      const sumInv = batch.reduce((s, im) => s + 1 / im[1], 0);
+      return (containerH - (batch.length - 1) * GAP) / sumInv;
+    }
+
+    // Remplit les colonnes une à une jusqu'à approcher la largeur visée
     function computeLayout(images) {
       const pool = shuffle(images);
       const cols = [];
-      let i = 0;
-      while (i < pool.length) {
-        // 2 à 4 images par colonne
-        const count = 2 + Math.floor(Math.random() * 3);
-        const batch = pool.slice(i, Math.min(i + count, pool.length));
-        i += batch.length;
-
-        const colW = COL_WIDTHS[Math.floor(Math.random() * COL_WIDTHS.length)];
-
-        // Poids aléatoires pour les hauteurs relatives
-        const weights = batch.map(() => 0.5 + Math.random());
-        const totalW  = weights.reduce((a, b) => a + b, 0);
-        const totalGap = (batch.length - 1) * GAP;
-        // Chaque image prend une part proportionnelle de la hauteur disponible
-        const heights = weights.map(w => Math.round(w / totalW * (containerH - totalGap)));
-
-        cols.push({ srcs: batch, colW, heights });
+      let batch = [];
+      pool.forEach(im => {
+        batch.push(im);
+        if (batch.length >= 2 && colWidth(batch) <= TARGET_W) {
+          cols.push(batch);
+          batch = [];
+        }
+      });
+      if (batch.length) {
+        // Reste : on le rattache à la dernière colonne s'il serait trop large seul
+        if (cols.length && (batch.length < 2 || colWidth(batch) > MAX_W)) {
+          cols[cols.length - 1] = cols[cols.length - 1].concat(batch);
+        } else {
+          cols.push(batch);
+        }
       }
-      return cols;
+      return cols.map(b => ({ items: b, colW: colWidth(b) }));
     }
 
-    // Rend un jeu de colonnes dans le strip
-    // Chaque image occupe exactement sa cellule (object-fit: cover) afin que
-    // toutes les images s'alignent parfaitement entre elles, sans espace blanc
-    // ni décalage de cadrage.
     function renderLayout(layout, openLb) {
       let setW = 0;
-      layout.forEach(({ srcs: batchSrcs, colW, heights }) => {
+      layout.forEach(({ items, colW }) => {
         const col = document.createElement('div');
         col.className = 'col';
-        col.style.width        = colW + 'px';
-        col.style.gap          = GAP + 'px';
-        col.style.marginRight  = GAP + 'px';
-        col.style.height       = containerH + 'px';
+        col.style.width       = colW + 'px';
+        col.style.gap         = GAP + 'px';
+        col.style.marginRight = GAP + 'px';
+        col.style.height      = containerH + 'px';
 
-        batchSrcs.forEach((src, j) => {
-          const cell = document.createElement('div');
-          cell.style.width  = '100%';
-          cell.style.height = heights[j] + 'px';
-          cell.style.overflow = 'hidden';
-          cell.style.flexShrink = '0';
-
+        items.forEach(([src, ratio]) => {
           const img = document.createElement('img');
           img.src = src;
+          img.alt = '';
+          img.style.width  = '100%';
+          img.style.height = (colW / ratio) + 'px';
           img.addEventListener('click', () => openLb(src));
-          cell.appendChild(img);
-          col.appendChild(cell);
+          col.appendChild(img);
         });
 
         strip.appendChild(col);
@@ -227,15 +198,13 @@
       lb.style.display = 'flex';
     }
 
-    // Calcule et rend deux copies identiques pour la boucle
-    const layout  = computeLayout(srcs);
+    // Deux copies identiques pour la boucle infinie
+    const layout   = computeLayout(IMAGES);
     const setWidth = renderLayout(layout, openLightbox);
     renderLayout(layout, openLightbox);
 
-    // Animation défilement droite → gauche — continue en permanence,
-    // même quand la souris survole l'écran (pas de pause au hover).
+    // Défilement droite → gauche, continu (aucune pause au survol)
     let x = 0;
-
     function animate() {
       x -= SPEED;
       if (Math.abs(x) >= setWidth) x = 0;

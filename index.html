@@ -302,8 +302,9 @@
 
     .about-photo img {
       width: 100%;
-      aspect-ratio: 3/4;
-      object-fit: cover;
+      height: auto;
+      aspect-ratio: auto;
+      object-fit: contain;
       display: block;
       filter: grayscale(100%);
     }
@@ -334,7 +335,7 @@
     @media (max-width: 768px) {
       .about { padding: 60px 24px; }
       .about-inner { grid-template-columns: 1fr; gap: 40px; }
-      .about-photo img { aspect-ratio: 4/3; }
+      .about-photo img { aspect-ratio: auto; }
     }
 
     /* ─── FOOTER ─── */
@@ -409,7 +410,7 @@
 
       .about { padding: 48px 20px; }
       .about-inner { grid-template-columns: 1fr; gap: 32px; }
-      .about-photo img { aspect-ratio: 4/3; }
+      .about-photo img { aspect-ratio: auto; }
 
       .contact { padding: 48px 20px; }
 

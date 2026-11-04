@@ -201,6 +201,44 @@
       .back-link { padding: 28px 20px; }
       footer { padding: 28px 20px; flex-direction: column; gap: 10px; align-items: flex-start; }
     }
+    /* ─── EKOMOD : images 1 et 3 empilées à gauche, image 2 à droite ───
+       Largeurs calculées pour que les 3 images s'affichent en entier :
+       2 carrés à gauche = même hauteur que l'image portrait (848×1264) à droite */
+    .ekomod-layout {
+      display: grid;
+      grid-template-columns: 0.745fr 1fr;
+      gap: 2px;
+      align-items: stretch;
+    }
+    .ekomod-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .ekomod-left img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .ekomod-right {
+      position: relative;
+      overflow: hidden;
+    }
+    .ekomod-right img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    @media (max-width: 768px) {
+      .ekomod-layout { grid-template-columns: 1fr; }
+      .ekomod-left { display: contents; }
+      .ekomod-left img:nth-child(2) { order: 3; }
+      .ekomod-right { order: 2; }
+      .ekomod-right img { position: static; height: auto; }
+    }
   </style>
 </head>
 <body>
@@ -240,12 +278,14 @@
   </section>
 
   <section class="gallery">
-    <div class="gallery-hero">
-      <img src="ekomod-1.png" alt="Ekomod — vue d'ensemble">
-    </div>
-    <div class="gallery-duo">
-      <img src="ekomod-2.png" alt="Ekomod — connecteurs">
-      <img src="ekomod-3.png" alt="Ekomod — détail">
+    <div class="ekomod-layout">
+      <div class="ekomod-left">
+        <img src="ekomod-1.png" alt="Ekomod — vue d'ensemble">
+        <img src="ekomod-3.png" alt="Ekomod — détail">
+      </div>
+      <div class="ekomod-right">
+        <img src="ekomod-2.png" alt="Ekomod — connecteurs">
+      </div>
     </div>
   </section>
 
